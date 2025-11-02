@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yenibirnefes/models/theme/app_colors.dart';
+import 'package:yenibirnefes/screens/login_page.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -12,6 +13,7 @@ class SplashPage extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment(4, 15),
             end: Alignment.bottomLeft,
+
             colors: [AppColors.primary, AppColors.background],
           ),
         ),
@@ -41,7 +43,7 @@ class SplashPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  buildLoginButton(),
+                  buildLoginButton(context),
                   SizedBox(width: 40),
                   buildSignUpButton(),
                 ],
@@ -55,7 +57,7 @@ class SplashPage extends StatelessWidget {
 
   // Butonları Widget olarak oluşturmamın sebebi  Biz bunları diger sayfalarda kullanacagız ama
   // diger sayfadakılerın actıonları farklı olacak ihtiyacın olursa kopyala ama action degistir!
-  ElevatedButton buildLoginButton() {
+  ElevatedButton buildLoginButton(context) {
     return ElevatedButton(
       child: const Text('Giriş Yap'),
       style: ElevatedButton.styleFrom(
@@ -68,8 +70,10 @@ class SplashPage extends StatelessWidget {
         ),
       ),
       onPressed: () {
-        //Navigator ile ka login_page ye atılacak!
-        print('Giriş butonuna basıldı!');
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LoginPage()),
+        );
       },
     );
   }

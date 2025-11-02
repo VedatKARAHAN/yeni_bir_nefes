@@ -43,3 +43,29 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# -----------------------------------------------
+# GİZLİ TUTULMASI GEREKEN FIREBASE DOSYALARI
+# -----------------------------------------------
+# Android
+/android/app/google-services.json
+
+# iOS
+/ios/Runner/GoogleService-Info.plist
+
+# FlutterFire (Web, macOS, Windows dahil)
+/lib/firebase_options.dart
+
+
+# -----------------------------------------------
+# Genel Flutter ve Dart "çöp" dosyaları
+# (Bunlar da yüklenmemeli)
+# -----------------------------------------------
+.dart_tool/
+.idea/
+.packages
+.pub-cache/
+.pub/
+build/
+*.iml
+*.metadata
