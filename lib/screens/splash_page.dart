@@ -45,7 +45,7 @@ class SplashPage extends StatelessWidget {
                 children: [
                   buildLoginButton(context),
                   SizedBox(width: 40),
-                  buildSignUpButton(),
+                  buildRegisterButton(),
                 ],
               ),
             ],
@@ -80,7 +80,7 @@ class SplashPage extends StatelessWidget {
 
   // Butonları Widget olarak oluşturmamın sebebi  Biz bunları diger sayfalarda kullanacagız ama
   // diger sayfadakılerın actıonları farklı olacak ihtiyacın olursa kopyala ama action degistir!
-  ElevatedButton buildSignUpButton() {
+  ElevatedButton buildRegisterButton() {
     return ElevatedButton(
       child: const Text('Kaydol'),
       style: ElevatedButton.styleFrom(
