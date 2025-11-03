@@ -20,67 +20,69 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment(4, 15),
-              end: Alignment.bottomLeft,
-
-              colors: [AppColors.primary, AppColors.background],
+        child: Center(
+          child: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment(4, 15),
+                end: Alignment.bottomLeft,
+                colors: [AppColors.primary, AppColors.background],
+              ),
             ),
-          ),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/image/clean_logo.png', height: 170),
-                //SizedBox(height: 5),
-                Column(
-                  children: [
-                    Text(
-                      'YENİ BİR NEFES',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+            child: Center(
+              //Kendi Emulatöründe dene eger yıne ortalanmışsa buraya bırdaha bak!
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/image/clean_logo.png', height: 170),
+                  //SizedBox(height: 5),
+                  Column(
+                    children: [
+                      Text(
+                        'YENİ BİR NEFES',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Giriş Yap',
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                      Text(
+                        'Giriş Yap',
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 40),
-                    BuildEmailTextField(),
-                    SizedBox(height: 10),
-                    BuildPasswordTextField(),
-                  ],
-                ),
-                SizedBox(height: 40),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [buildLoginButton(context)],
-                ),
-                SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Bir Hesabım Yok!'),
-                    SizedBox(width: 2),
-                    Text(
-                      'Kaydol',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+                      SizedBox(height: 40),
+                      BuildEmailTextField(),
+                      SizedBox(height: 10),
+                      BuildPasswordTextField(),
+                    ],
+                  ),
+                  SizedBox(height: 40),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [buildLoginButton(context)],
+                  ),
+                  SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Bir Hesabım Yok!'),
+                      SizedBox(width: 2),
+                      Text(
+                        'Kaydol',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
