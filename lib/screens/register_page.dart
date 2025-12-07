@@ -1,59 +1,80 @@
-// lib/screens/login_page.dart
+// lib/screens/register_page.dart
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:yenibirnefes/models/theme/app_colors.dart';
 import 'package:yenibirnefes/service/auth.dart';
-import 'package:yenibirnefes/screens/register_page.dart';
+import 'package:yenibirnefes/screens/login_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
+  final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordConfirmController =
+      TextEditingController();
   final Auth _auth = Auth();
 
   String? errorMessage;
 
-  // Firebase ile giriş işlemini gerceklestirir
-  Future<void> signInUser() async {
+  // Firebase ile kayıt işlemini gerçeklestirir
+  Future<void> registerUser() async {
     setState(() {
-      errorMessage = null; // herdenemede hata mesajini degistirmek icin.
+      errorMessage = null;
     });
+
+    if (passwordController.text.trim() !=
+        passwordConfirmController.text.trim()) {
+      setState(() {
+        errorMessage = 'Şifreler uyuşmuyor! Lütfen kontrol edin.';
+      });
+      return;
+    }
+
     try {
-      await _auth.signIn(
+      await _auth.createUser(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-      // Başarılı girişten AuthGate otomatik yonlendirme yapacak
+
+      // Başarılı kayıt sonrası kullanıcıyı bilgilendir
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Kayıt başarılı! Giriş yapabilirsiniz.'),
+          ),
+        );
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
+      }
     } on FirebaseAuthException catch (e) {
-      // Firebase'den gelen hatayı yakalayacak
+      // Firebase hata yönetimi
       setState(() {
         errorMessage = _getAuthErrorMessage(e.code);
       });
     } catch (e) {
-      // Genel hataları yakalar
       setState(() {
-        errorMessage = 'Giriş sırasında bilinmeyen bir hata oluştu.';
+        errorMessage = 'Kayıt sırasında bilinmeyen bir hata oluştu.';
       });
     }
   }
 
-  // Firebase hata kodların duzgun yapmasi icin
   String _getAuthErrorMessage(String errorCode) {
     switch (errorCode) {
-      case 'user-not-found':
-        return 'Bu e-posta adresiyle kullanıcı bulunamadı.';
-      case 'wrong-password':
-        return 'Hatalı şifre girdiniz.';
+      case 'weak-password':
+        return 'Şifre çok zayıf. En az 6 karakter olmalı.';
+      case 'email-already-in-use':
+        return 'Bu e-posta adresi zaten kullanımda.';
       case 'invalid-email':
         return 'Lütfen geçerli bir e-posta adresi giriniz.';
       default:
-        return 'Giriş yapılamadı. Lütfen bilgilerinizi kontrol edin.';
+        return 'Kayıt yapılamadı.';
     }
   }
 
@@ -70,13 +91,12 @@ class _LoginPageState extends State<LoginPage> {
         ),
         child: Center(
           child: SingleChildScrollView(
-            // Klavye acildiginda tasma oluyordu o hata icin  kullanildi
             padding: const EdgeInsets.all(24.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/image/clean_logo.png', height: 170),
-                const SizedBox(height: 5),
+                Image.asset('assets/image/clean_logo.png', height: 120),
+                const SizedBox(height: 10),
                 const Text(
                   'YENİ BİR NEFES',
                   style: TextStyle(
@@ -86,19 +106,27 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const Text(
-                  'Giriş Yap',
+                  'Hesap Oluştur',
                   style: TextStyle(
                     color: AppColors.textDark,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   ),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 30),
 
+                // Kullanıcı Adı sonradan iptal edildi fire base düzenlemesi hatali oldugu ıcın
+                //BuildUsernameTextField(usernameController),
+                const SizedBox(height: 10),
+                // E-posta
                 BuildEmailTextField(emailController),
                 const SizedBox(height: 10),
-
+                // Şifre
                 BuildPasswordTextField(passwordController),
+                const SizedBox(height: 10),
+                // Şifre Tekrarı
+                BuildPasswordConfirmTextField(passwordConfirmController),
+
                 const SizedBox(height: 20),
 
                 // Hata Mesajı
@@ -114,31 +142,35 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 30),
 
+                // Kayıt Ol Butonu
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [buildLoginButton(context, signInUser)],
+                  children: [buildRegisterButton(context, registerUser)],
                 ),
+
                 const SizedBox(height: 30),
 
+                // Giriş Yap Bağlantısı
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'Bir Hesabım Yok!',
+                      'Zaten Bir Hesabım Var mı?',
                       style: TextStyle(color: AppColors.textDark),
                     ),
                     const SizedBox(width: 5),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
+                        // Giriş sayfasına yönlendir
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const RegisterPage(),
+                            builder: (context) => const LoginPage(),
                           ),
                         );
                       },
                       child: const Text(
-                        'Kaydol',
+                        'Giriş Yap',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -156,44 +188,13 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // ------------------------------------------------------------------
-
-  TextField BuildPasswordTextField(TextEditingController controller) {
-    return TextField(
-      obscureText: true,
-      textAlign: TextAlign.left,
-      style: const TextStyle(fontSize: 18, color: AppColors.textDark),
-      controller: controller,
-      cursorColor: AppColors.textDark,
-      maxLength: 60,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: AppColors.textLight,
-        hintText: 'Şifrenizi giriniz',
-        hintStyle: TextStyle(color: AppColors.textDark.withOpacity(0.4)),
-        counterText: '',
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 15.0,
-          horizontal: 20.0,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.0),
-          borderSide: const BorderSide(color: AppColors.primary, width: 2.0),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.0),
-          borderSide: const BorderSide(color: AppColors.primary, width: 2.5),
-        ),
-      ),
-    );
-  }
+  //--------------------------------------------------------------------------
 
   TextField BuildEmailTextField(TextEditingController controller) {
     return TextField(
       textAlign: TextAlign.left,
       style: const TextStyle(fontSize: 18, color: AppColors.textDark),
       controller: controller,
-      autofocus: true,
       keyboardType: TextInputType.emailAddress,
       cursorColor: AppColors.textDark,
       maxLength: 60,
@@ -218,17 +219,82 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  TextField BuildPasswordTextField(TextEditingController controller) {
+    return TextField(
+      obscureText: true,
+      textAlign: TextAlign.left,
+      style: const TextStyle(fontSize: 18, color: AppColors.textDark),
+      controller: controller,
+      keyboardType: TextInputType.visiblePassword,
+      cursorColor: AppColors.textDark,
+      maxLength: 60,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: AppColors.textLight,
+        hintText: 'Şifrenizi giriniz',
+        hintStyle: TextStyle(color: AppColors.textDark.withOpacity(0.4)),
+        counterText: '',
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 15.0,
+          horizontal: 20.0,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: const BorderSide(color: AppColors.primary, width: 2.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: const BorderSide(color: AppColors.primary, width: 2.5),
+        ),
+      ),
+    );
+  }
+
+  TextField BuildPasswordConfirmTextField(TextEditingController controller) {
+    return TextField(
+      obscureText: true,
+      textAlign: TextAlign.left,
+      style: const TextStyle(fontSize: 18, color: AppColors.textDark),
+      controller: controller,
+      keyboardType: TextInputType.visiblePassword,
+      cursorColor: AppColors.textDark,
+      maxLength: 60,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: AppColors.textLight,
+        hintText: 'Şifrenizi tekrar giriniz',
+        hintStyle: TextStyle(color: AppColors.textDark.withOpacity(0.4)),
+        counterText: '',
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 15.0,
+          horizontal: 20.0,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: const BorderSide(color: AppColors.primary, width: 2.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: const BorderSide(color: AppColors.primary, width: 2.5),
+        ),
+      ),
+    );
+  }
 }
 
-ElevatedButton buildLoginButton(BuildContext context, VoidCallback onPressed) {
+ElevatedButton buildRegisterButton(
+  BuildContext context,
+  VoidCallback onPressed,
+) {
   return ElevatedButton(
-    onPressed: onPressed,
+    onPressed: onPressed, // Kayit metodunu calistirir
     child: const Text(
-      'Giriş Yap',
+      'Kayıt Ol',
       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
     ),
     style: ElevatedButton.styleFrom(
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.primary, //
       foregroundColor: AppColors.textLight,
       fixedSize: const Size(150.0, 50.0),
       elevation: 4,
