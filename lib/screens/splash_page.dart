@@ -1,6 +1,6 @@
+// lib/screens/splash_page.dart
 import 'package:flutter/material.dart';
 import 'package:yenibirnefes/models/theme/app_colors.dart';
-import 'package:yenibirnefes/screens/login_page.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -9,11 +9,11 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        // Arka Plan
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment(4, 15),
             end: Alignment.bottomLeft,
-
             colors: [AppColors.primary, AppColors.background],
           ),
         ),
@@ -21,81 +21,31 @@ class SplashPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/image/clean_logo.png', height: 170),
-              //SizedBox(height: 5),
-              Column(
-                children: [
-                  Text(
-                    'YENİ BİR NEFES',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                  Text(
-                    'Sigarayı Bırak, Hayata Yeniden Başla',
-                    style: TextStyle(color: AppColors.primary),
-                  ),
-                ],
+              Image.asset('assets/image/clean_logo.png', height: 200),
+              const SizedBox(height: 20),
+              const Text(
+                'YENİ BİR NEFES',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.textDark,
+                ),
               ),
-              SizedBox(height: 40),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buildLoginButton(context),
-                  SizedBox(width: 40),
-                  buildRegisterButton(),
-                ],
+              const SizedBox(height: 50),
+              // Yükleniyor Göstergesi
+              const CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                strokeWidth: 5,
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Oturum Kontrol Ediliyor...',
+                style: TextStyle(fontSize: 16, color: AppColors.textDark),
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  // Butonları Widget olarak oluşturmamın sebebi  Biz bunları diger sayfalarda kullanacagız ama
-  // diger sayfadakılerın actıonları farklı olacak ihtiyacın olursa kopyala ama action degistir!
-  ElevatedButton buildLoginButton(context) {
-    return ElevatedButton(
-      child: const Text('Giriş Yap'),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.textLight,
-        foregroundColor: AppColors.primary,
-        fixedSize: const Size(110.0, 40.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(9.0),
-          side: const BorderSide(color: AppColors.primary, width: 1.0),
-        ),
-      ),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => LoginPage()),
-        );
-      },
-    );
-  }
-
-  // Butonları Widget olarak oluşturmamın sebebi  Biz bunları diger sayfalarda kullanacagız ama
-  // diger sayfadakılerın actıonları farklı olacak ihtiyacın olursa kopyala ama action degistir!
-  ElevatedButton buildRegisterButton() {
-    return ElevatedButton(
-      child: const Text('Kaydol'),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textLight,
-        fixedSize: const Size(110.0, 40.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(9.0),
-          side: const BorderSide(color: AppColors.textLight, width: 1.0),
-        ),
-      ),
-      onPressed: () {
-        //Navigator ile ka signup_page ye atılacak!
-        print('Kaydol butonuna basıldı!');
-      },
     );
   }
 }
