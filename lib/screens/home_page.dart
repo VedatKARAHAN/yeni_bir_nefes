@@ -3,9 +3,14 @@ import 'package:yenibirnefes/service/auth.dart';
 import 'package:yenibirnefes/screens/login_page.dart';
 import 'package:yenibirnefes/models/theme/app_colors.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final Auth auth = Auth();
@@ -26,6 +31,7 @@ class HomePage extends StatelessWidget {
             onPressed: () async {
               await auth.signOut();
               // Burada bir hata var kesinlikle çöz hata:Mesela giriş başarılı yaptım çıkış yaparsam home veya admin panelinden birdaha giris yapamıyorum
+              //Hataya geçici çözüm buldum araştır
               if (context.mounted) {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => const LoginPage()),

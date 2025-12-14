@@ -57,7 +57,7 @@ class AdminPanelPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             Text(
-              auth.currentUser?.email ?? 'Admin',
+              'Admin',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w900,
