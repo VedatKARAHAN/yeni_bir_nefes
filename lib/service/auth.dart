@@ -10,10 +10,9 @@ class Auth {
 
   // Kullanıcının oturum durumundaki değişiklikleri (giriş/çıkış) yayınlayan akış (Stream).
   // Bu, uygulamanın sürekli kullanıcı durumunu dinlemesini sağlar (AuthGate için hayati).
-  Stream<User?> get authStateChanges => _firebaseAuth
-      .authStateChanges(); // Düzeltme: authStateChages -> authStateChanges
+  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
-  // Yeni kullanıcı kaydı (Register) işlemi.
+  // Yeni kullanıcı kaydı işlemi.
   Future<void> createUser({
     required String email,
     required String password,
@@ -24,7 +23,7 @@ class Auth {
     );
   }
 
-  // Kullanıcı giriş (Login) işlemi.
+  // Kullanıcı giriş  işlemi.
   Future<void> signIn({required String email, required String password}) async {
     await _firebaseAuth.signInWithEmailAndPassword(
       email: email,
@@ -32,7 +31,7 @@ class Auth {
     );
   }
 
-  // Kullanıcı çıkış (Sign out) işlemi.
+  // Kullanıcı çıkış  işlemi.
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }

@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:yenibirnefes/models/theme/app_colors.dart';
 import 'package:yenibirnefes/service/auth.dart';
 import 'package:yenibirnefes/screens/register_page.dart';
+import 'package:yenibirnefes/screens/home_page.dart';
+import 'package:yenibirnefes/screens/admin_panel_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,6 +19,9 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
   final Auth _auth = Auth();
 
+  final String adminEmail =
+      'admin@gmail.com'; //Zaman Kalmadığı için böyle yapıldı
+
   String? errorMessage;
 
   // Firebase ile giriş işlemini gerceklestirir
@@ -29,7 +34,20 @@ class _LoginPageState extends State<LoginPage> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-      // Başarılı girişten AuthGate otomatik yonlendirme yapacak
+      // Başarılı girişten AuthGate otomatik yonlendirme yapacak(iptal)
+      if (mounted) {
+        final user = _auth.currentUser;
+        Widget nextPage;
+
+        if (user != null && user.email == adminEmail) {
+          nextPage = const AdminPanelPage();
+        } else {
+          nextPage = const HomePage();
+        }
+        Navigator.of(
+          context,
+        ).pushReplacement(MaterialPageRoute(builder: (context) => nextPage));
+      }
     } on FirebaseAuthException catch (e) {
       // Firebase'den gelen hatayı yakalayacak
       setState(() {
@@ -82,13 +100,13 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w900,
-                    color: AppColors.textDark,
+                    color: AppColors.primary,
                   ),
                 ),
                 const Text(
                   'Giriş Yap',
                   style: TextStyle(
-                    color: AppColors.textDark,
+                    color: AppColors.primary,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   ),

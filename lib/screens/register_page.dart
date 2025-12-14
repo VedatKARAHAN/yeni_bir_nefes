@@ -102,13 +102,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w900,
-                    color: AppColors.textDark,
+                    color: AppColors.primary,
                   ),
                 ),
                 const Text(
                   'Hesap Oluştur',
                   style: TextStyle(
-                    color: AppColors.textDark,
+                    color: AppColors.primary,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   ),
