@@ -9,12 +9,11 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: Container( // Böyle yaptıgım için ekranın hepsini kaplayan bir container oluşturdu
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment(4, 15),
             end: Alignment.bottomLeft,
-
             colors: [AppColors.primary, AppColors.background],
           ),
         ),
