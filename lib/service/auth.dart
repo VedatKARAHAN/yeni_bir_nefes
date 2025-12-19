@@ -8,9 +8,9 @@ class Auth {
   // Oturum açmış olan mevcut kullanıcıyı döndürür.
   User? get currentUser => _firebaseAuth.currentUser;
 
-  // Kullanıcının oturum durumundaki değişiklikleri (giriş/çıkış) yayınlayan akış (Stream).
-  // Bu, uygulamanın sürekli kullanıcı durumunu dinlemesini sağlar (AuthGate için hayati).
-  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
+  // Kullanıcının oturum durumundaki değişiklikleri  yayınlayan akış
+  // Bu, uygulamanın sürekli kullanıcı durumunu dinlemesini sağlar 
+  //Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
   // Yeni kullanıcı kaydı işlemi.
   Future<void> createUser({
