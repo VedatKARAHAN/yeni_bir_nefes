@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yenibirnefes/models/theme/app_colors.dart';
-import 'package:yenibirnefes/service/auth.dart'; 
-import 'package:yenibirnefes/screens/splash_page.dart'; 
+import 'package:yenibirnefes/service/auth.dart';
+import 'package:yenibirnefes/screens/splash_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final Auth _auth = Auth(); 
+  final Auth _auth = Auth();
   int _currentIndex = 0;
 
   @override
@@ -19,28 +19,24 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: AppColors.background,
 
-      
       appBar: AppBar(
         title: const Text(
           'YENİ BİR NEFES',
           style: TextStyle(
-            color: AppColors.textDark,
+            color: AppColors.primary,
             fontWeight: FontWeight.w900,
             fontSize: 18,
             letterSpacing: 1.2,
           ),
         ),
         centerTitle: true,
-        backgroundColor:
-            Colors.transparent, 
-        elevation: 0, 
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         actions: [
-          
           IconButton(
             icon: const Icon(Icons.logout_rounded, color: AppColors.primary),
             tooltip: 'Çıkış Yap',
             onPressed: () async {
-              
               await _auth.signOut();
               if (mounted) {
                 Navigator.of(context).pushReplacement(
@@ -57,13 +53,11 @@ class _HomePageState extends State<HomePage> {
           children: [
             const SizedBox(height: 10),
 
-            
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ListView(
-                  physics:
-                      const BouncingScrollPhysics(), 
+                  physics: const BouncingScrollPhysics(),
                   children: [
                     _buildStackedCard(
                       title: "Sigarasız Geçen Süre",

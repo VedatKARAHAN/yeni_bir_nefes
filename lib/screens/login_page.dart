@@ -1,4 +1,3 @@
-// lib/screens/login_page.dart
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:yenibirnefes/models/theme/app_colors.dart';
@@ -15,6 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  //Bu controller ile text property ile içindeki değeri bulabiliriz.
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final Auth _auth = Auth();
@@ -26,8 +26,9 @@ class _LoginPageState extends State<LoginPage> {
 
   // Firebase ile giriş işlemini gerceklestirir
   Future<void> signInUser() async {
+    //Giriş Yap butonunun fonksiyonu
     setState(() {
-      errorMessage = null; // herdenemede hata mesajini degistirmek icin.
+      errorMessage = null; // her denemede hata mesajini degistirmek icin.
     });
     try {
       await _auth.signIn(

@@ -1,4 +1,3 @@
-// lib/screens/register_page.dart
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:yenibirnefes/models/theme/app_colors.dart';
@@ -13,7 +12,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordConfirmController =
@@ -114,9 +112,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 const SizedBox(height: 30),
-
-                // Kullanıcı Adı sonradan iptal edildi fire base düzenlemesi hatali oldugu ıcın
-                //BuildUsernameTextField(usernameController),
                 const SizedBox(height: 10),
                 // E-posta
                 BuildEmailTextField(emailController),

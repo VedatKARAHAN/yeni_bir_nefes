@@ -1,11 +1,10 @@
-// lib/service/auth.dart
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Auth {
-  // Firebase Authentication örneğini oluşturur.
+  // Firebase Authentication örneğini oluşturur
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  // Oturum açmış olan mevcut kullanıcıyı döndürür.
+  // Oturum açmış olan mevcut kullanıcıyı döndürür
   User? get currentUser => _firebaseAuth.currentUser;
 
   // Kullanıcının oturum durumundaki değişiklikleri  yayınlayan akış
